@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Star, Truck, Users, Palette, ArrowRight, Phone, Mail, MapPin, ShoppingBag, Award, Clock } from 'lucide-react';
-import './Landing.css';
+import './homePage.css';
 
 interface NavItem {
   id: string;
   label: string;
 }
 
-const Landing: React.FC = () => {
+const HomePage: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [activeSection, setActiveSection] = useState<string>('home');
 
@@ -281,7 +281,7 @@ const Landing: React.FC = () => {
                 <Phone className="contact-icon" />
                 <div>
                   <h4>Teléfono</h4>
-                  <p>+57 123 456 7890</p>
+                  <p>+57 324 9207921</p>
                 </div>
               </div>
               <div className="contact-item">
@@ -361,4 +361,4 @@ const Landing: React.FC = () => {
   );
 };
 
-export default Landing;
+export default HomePage;
