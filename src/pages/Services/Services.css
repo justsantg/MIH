@@ -68,6 +68,12 @@
   font-size: 1rem;
 }
 
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
 /* Services Grid */
 .services-grid-section {
   background: var(--background-light);

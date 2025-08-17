@@ -182,32 +182,21 @@ const ServicesPage: React.FC = () => {
     <div className="services-page">
       {/* Hero Section */}
       <section className="services-hero">
-        <div className="container">
-          <div className="hero-content">
-            <h1 className="hero-title">
-              Nuestros <span className="title-accent">Servicios</span>
-            </h1>
-            <p className="hero-subtitle">
-              Ofrecemos soluciones completas de personalización y producción 
-              de prendas para satisfacer todas tus necesidades.
-            </p>
-            <div className="hero-stats">
-              <div className="stat-item">
-                <div className="stat-number">500+</div>
-                <div className="stat-label">Proyectos Completados</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">98%</div>
-                <div className="stat-label">Satisfacción del Cliente</div>
-              </div>
-              <div className="stat-item">
-                <div className="stat-number">5</div>
-                <div className="stat-label">Años de Experiencia</div>
-              </div>
-            </div>
-          </div>
+  <div className="container">
+    <div className="hero-stats">
+      {[
+        { number: '500+', label: 'Proyectos Completados' },
+        { number: '98%', label: 'Satisfacción del Cliente' },
+        { number: '5', label: 'Años de Experiencia' },
+      ].map((stat, index) => (
+        <div key={index} className="stat-item">
+          <div className="stat-number">{stat.number}</div>
+          <div className="stat-label">{stat.label}</div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Services Grid */}
       <section className="services-grid-section">

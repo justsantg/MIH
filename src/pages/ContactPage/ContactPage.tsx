@@ -18,15 +18,33 @@ const ContactPage: React.FC = () => (
             <div className="contact-info-item">
               <span className="contact-info-emoji">📞</span>
               <div>
-                <h4>Teléfono</h4>
-                <p>+57 324 9207921</p>
+              <h4>Teléfono</h4>
+              <p>
+                <a
+                href="https://wa.me/573249207921"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-link"
+                >
+                +57 3249207921
+                </a>
+              </p>
               </div>
             </div>
             <div className="contact-info-item">
               <span className="contact-info-emoji">✉️</span>
               <div>
-                <h4>Email</h4>
-                <p>info@madeinheaven.com</p>
+              <h4>Instagram</h4>
+              <p>
+                <a
+                href="https://instagram.com/madeinheaven.shop_"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-link"
+                >
+                madeinheaven.shop_
+                </a>
+              </p>
               </div>
             </div>
             <div className="contact-info-item">

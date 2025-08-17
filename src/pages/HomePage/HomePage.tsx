@@ -1,187 +1,217 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Star, Truck, Users, Palette, ArrowRight, Phone, Mail, MapPin, ShoppingBag, Award, Clock } from 'lucide-react';
-import './homePage.css';
+import type React from "react"
+import { useState, useEffect } from "react"
+import {
+  Star,
+  Truck,
+  Users,
+  Palette,
+  ArrowRight,
+  Phone,
+  Mail,
+  MapPin,
+  ShoppingBag,
+  Award,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+} from "lucide-react"
+import "../HomePage/HomePage.css"
 
-interface NavItem {
-  id: string;
-  label: string;
+interface CarouselItem {
+  id: number
+  title: string
+  subtitle: string
+  description: string
+  image: string
+  cta: string
 }
 
 const HomePage: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [activeSection, setActiveSection] = useState<string>('home');
+  const [currentSlide, setCurrentSlide] = useState<number>(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(true)
 
-  // Smooth scroll and active section tracking
+  const carouselItems: CarouselItem[] = [
+    {
+      id: 1,
+      title: "Personalización Premium",
+      subtitle: "Diseños únicos para tu marca",
+      description: "Transforma tus ideas en realidad con nuestros servicios de personalización de alta calidad",
+      image: "/placeholder-v2n00.png",
+      cta: "Personalizar Ahora",
+    },
+    {
+      id: 2,
+      title: "Venta al Por Mayor",
+      subtitle: "Precios especiales para tu negocio",
+      description: "Obtén los mejores precios en pedidos grandes y haz crecer tu negocio con nosotros",
+      image: "/bulk-clothing-wholesale.png",
+      cta: "Ver Precios",
+    },
+    {
+      id: 3,
+      title: "Calidad Garantizada",
+      subtitle: "Materiales de primera",
+      description: "Utilizamos solo los mejores materiales y técnicas de impresión para resultados duraderos",
+      image: "/placeholder-41nwp.png",
+      cta: "Conocer Más",
+    },
+  ]
+
+  useEffect(() => {
+    if (!isAutoPlaying) return
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % carouselItems.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, carouselItems.length])
+
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'services', 'products', 'about', 'contact'];
-      const scrollPos = window.scrollY + 100;
+      const sections = ["home", "services", "products", "about", "contact"]
+      const scrollPos = window.scrollY + 100
 
-      sections.forEach(section => {
-        const element = document.getElementById(section);
+      sections.forEach((section) => {
+        const element = document.getElementById(section)
         if (element) {
-          const { offsetTop, offsetHeight } = element;
+          const { offsetTop, offsetHeight } = element
           if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
-            setActiveSection(section);
+            // Section tracking can be used for other purposes if needed
           }
         }
-      });
-    };
+      })
+    }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   const scrollToSection = (sectionId: string): void => {
-    const element = document.getElementById(sectionId);
+    const element = document.getElementById(sectionId)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" })
     }
-    setIsMenuOpen(false);
-  };
+  }
 
-  const navItems: NavItem[] = [
-    { id: 'home', label: 'Inicio' },
-    { id: 'services', label: 'Servicios' },
-    { id: 'products', label: 'Productos' },
-    { id: 'about', label: 'Nosotros' },
-    { id: 'contact', label: 'Contacto' }
-  ];
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % carouselItems.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + carouselItems.length) % carouselItems.length)
+  }
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index)
+  }
 
   const services = [
     {
       icon: <Palette className="service-icon" />,
       title: "Personalización",
-      description: "Diseños únicos adaptados a tu marca y estilo personal"
+      description: "Diseños únicos adaptados a tu marca y estilo personal",
+      color: "var(--primary-red)",
     },
     {
       icon: <Users className="service-icon" />,
       title: "Venta al por Mayor",
-      description: "Grandes volúmenes con precios especiales para tu negocio"
+      description: "Grandes volúmenes con precios especiales para tu negocio",
+      color: "var(--secondary-blue)",
     },
     {
       icon: <Truck className="service-icon" />,
       title: "Envío Nacional",
-      description: "Entrega rápida y segura en todo el territorio nacional"
+      description: "Entrega rápida y segura en todo el territorio nacional",
+      color: "var(--accent-peach)",
     },
     {
       icon: <Award className="service-icon" />,
       title: "Calidad Premium",
-      description: "Materiales de primera calidad y acabados profesionales"
-    }
-  ];
+      description: "Materiales de primera calidad y acabados profesionales",
+      color: "var(--primary-dark)",
+    },
+  ]
 
   const products = [
-    { name: "Camisetas", image: "👕", description: "Personalizadas con tu diseño" },
-    { name: "Hoodies", image: "🧥", description: "Comodidad y estilo único" },
-    { name: "Gorras", image: "🧢", description: "Accesorios con personalidad" },
-    { name: "Bolsos", image: "👜", description: "Funcionales y elegantes" },
-    { name: "Tazas", image: "☕", description: "Perfectas para regalos" },
-    { name: "Llaveros", image: "🔑", description: "Detalles que marcan diferencia" }
-  ];
+    { name: "Camisetas", image: "/images/custom-t-shirt.png", description: "Personalizadas con tu diseño" },
+    { name: "Hoodies", image: "/images/custom-hoodie.png", description: "Comodidad y estilo único" },
+    { name: "Gorras", image: "/images/custom-baseball-cap.png", description: "Accesorios con personalidad" },
+    { name: "Bolsos", image: "/images/custom-tote-bag.png", description: "Funcionales y elegantes" },
+    { name: "Tazas", image: "/images/custom-printed-mug.png", description: "Perfectas para regalos" },
+    { name: "Llaveros", image: "/images/custom-keychain.png", description: "Detalles que marcan diferencia" },
+  ]
 
   return (
     <div className="landing-container">
-      {/* Header */}
-      <header className="header">
-        <nav className="nav-container">
-          <div className="nav-content">
-            {/* Logo */}
-            <div className="logo">
-              <h1 className="logo-text">Made in Heaven</h1>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="desktop-nav">
-              <div className="nav-links">
-                {navItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className={`nav-link ${activeSection === item.id ? 'nav-link-active' : ''}`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="mobile-menu-button">
-              <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="menu-toggle"
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
+      <section id="home" className="hero-section">
+        <div className="carousel-container">
+          <div className="carousel-wrapper">
+            <div className="carousel-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+              {carouselItems.map((item, index) => (
+                <div key={item.id} className="carousel-slide">
+                  <div className="container">
+                    <div className="slide-content">
+                      <div className="slide-text">
+                        <div className="slide-badge">
+                          <span>Made in Heaven</span>
+                        </div>
+                        <h1 className="slide-title">{item.title}</h1>
+                        <h2 className="slide-subtitle">{item.subtitle}</h2>
+                        <p className="slide-description">{item.description}</p>
+                        <div className="slide-buttons">
+                          <button className="btn btn-secondary">
+                            <a href="/contacto" className="router-link">
+                              Cotiza con nosotros
+                            </a>
+                            </button>
+                            <button className="btn btn-secondary">
+                            <a href="/productos" className="router-link">
+                              Ver Catálogo
+                            </a>
+                            </button>
+                        </div>
+                      </div>
+                      <div className="slide-image">
+                        <img src={item.image || "/placeholder.svg"} alt={item.title} />
+                        <div className="image-overlay"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="mobile-nav">
-              <div className="mobile-nav-content">
-                {navItems.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className={`mobile-nav-link ${activeSection === item.id ? 'mobile-nav-link-active' : ''}`}
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </nav>
-      </header>
+          <div className="carousel-controls">
+            <button onClick={prevSlide} className="carousel-btn carousel-btn-prev">
+              <ChevronLeft size={24} />
+            </button>
+            <button onClick={nextSlide} className="carousel-btn carousel-btn-next">
+              <ChevronRight size={24} />
+            </button>
+          </div>
 
-      {/* Hero Section */}
-      <section id="home" className="hero-section">
-        <div className="container">
-          <div className="hero-content">
-            <div className="hero-text">
-              <div className="hero-heading">
-                <h2 className="hero-title">
-                  Made in
-                  <span className="hero-title-accent">Heaven</span>
-                </h2>
-                <p className="hero-subtitle">
-                  Prendas y accesorios personalizados de calidad premium. 
-                  Especialistas en pedidos al por mayor y detal.
-                </p>
-              </div>
-              
-              <div className="hero-buttons">
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="btn btn-primary"
-                >
-                  Solicitar Cotización
-                  <ArrowRight size={20} />
-                </button>
-                <button
-                  onClick={() => scrollToSection('products')}
-                  className="btn btn-secondary"
-                >
-                  Ver Productos
-                </button>
-              </div>
-            </div>
+          <div className="carousel-indicators">
+            {carouselItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`carousel-indicator ${index === currentSlide ? "active" : ""}`}
+              />
+            ))}
+          </div>
 
-            <div className="hero-image">
-              <div className="hero-image-content">
-                <div className="hero-icon">
-                  <Palette size={80} />
-                  <p>Diseños Únicos</p>
-                </div>
-              </div>
-            </div>
+          <div className="carousel-autoplay">
+            <button onClick={() => setIsAutoPlaying(!isAutoPlaying)} className="autoplay-btn">
+              {isAutoPlaying ? <Pause size={16} /> : <Play size={16} />}
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
       <section id="services" className="services-section">
         <div className="container">
           <div className="section-header">
@@ -191,39 +221,40 @@ const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="services-grid">
+          <div className="services-grid-modern">
             {services.map((service, index) => (
-              <div key={index} className="service-card">
-                <div className="service-icon-container">
+              <div key={index} className="service-card-modern">
+                <div className="service-icon-container-modern" style={{ color: service.color }}>
                   {service.icon}
                 </div>
-                <h4 className="service-title">{service.title}</h4>
-                <p className="service-description">{service.description}</p>
+                <h4 className="service-title-modern">{service.title}</h4>
+                <p className="service-description-modern">{service.description}</p>
+                <div className="service-hover-effect"></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Products Section */}
       <section id="products" className="products-section">
         <div className="container">
           <div className="section-header">
             <h3 className="section-title">Nuestros Productos</h3>
-            <p className="section-subtitle">
-              Una amplia gama de productos para personalizar según tus necesidades
-            </p>
+            <p className="section-subtitle">Una amplia gama de productos para personalizar según tus necesidades</p>
           </div>
 
-          <div className="products-grid">
+          <div className="products-grid-modern">
             {products.map((product, index) => (
-              <div key={index} className="product-card">
-                <div className="product-image">
-                  <span className="product-emoji">{product.image}</span>
+              <div key={index} className="product-card-modern">
+                <div className="product-image-modern">
+                  <img src={product.image || "/placeholder.svg"} alt={product.name} />
+                  <div className="product-overlay">
+                    <button className="product-btn" onClick={() => window.location.href = "/servicios"}>Ver Detalles</button>
+                  </div>
                 </div>
-                <div className="product-info">
-                  <h4 className="product-name">{product.name}</h4>
-                  <p className="product-description">{product.description}</p>
+                <div className="product-info-modern">
+                  <h4 className="product-name-modern">{product.name}</h4>
+                  <p className="product-description-modern">{product.description}</p>
                 </div>
               </div>
             ))}
@@ -231,32 +262,41 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* About Section */}
       <section id="about" className="about-section">
         <div className="container">
-          <div className="about-content">
-            <div className="about-text">
+          <div className="about-content-modern">
+            <div className="about-text-modern">
               <h3 className="section-title">¿Por qué elegirnos?</h3>
-              <div className="about-features">
-                <div className="feature">
-                  <Clock className="feature-icon" />
-                  <div>
-                    <h4>Experiencia</h4>
-                    <p>Años de experiencia en el mercado de personalización</p>
+              <p className="about-intro">
+                Somos líderes en personalización con años de experiencia creando productos únicos que reflejan la
+                identidad de nuestros clientes.
+              </p>
+              <div className="about-features-modern">
+                <div className="feature-modern">
+                  <div className="feature-icon-modern">
+                    <Clock />
+                  </div>
+                  <div className="feature-content">
+                    <h4>+5 Años de Experiencia</h4>
+                    <p>Perfeccionando el arte de la personalización</p>
                   </div>
                 </div>
-                <div className="feature">
-                  <Star className="feature-icon" />
-                  <div>
+                <div className="feature-modern">
+                  <div className="feature-icon-modern">
+                    <Star />
+                  </div>
+                  <div className="feature-content">
                     <h4>Calidad Garantizada</h4>
-                    <p>Utilizamos los mejores materiales y técnicas de impresión</p>
+                    <p>Materiales premium y acabados profesionales</p>
                   </div>
                 </div>
-                <div className="feature">
-                  <ShoppingBag className="feature-icon" />
-                  <div>
-                    <h4>Variedad</h4>
-                    <p>Amplio catálogo de productos para todos los gustos</p>
+                <div className="feature-modern">
+                  <div className="feature-icon-modern">
+                    <ShoppingBag />
+                  </div>
+                  <div className="feature-content">
+                    <h4>+1000 Productos Entregados</h4>
+                    <p>Clientes satisfechos en todo el país</p>
                   </div>
                 </div>
               </div>
@@ -265,14 +305,11 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section id="contact" className="contact-section">
         <div className="container">
           <div className="section-header">
             <h3 className="section-title">Contactános</h3>
-            <p className="section-subtitle">
-              Estamos aquí para ayudarte con tu próximo proyecto
-            </p>
+            <p className="section-subtitle">Estamos aquí para ayudarte con tu próximo proyecto</p>
           </div>
 
           <div className="contact-content">
@@ -281,16 +318,23 @@ const HomePage: React.FC = () => {
                 <Phone className="contact-icon" />
                 <div>
                   <h4>Teléfono</h4>
-                  <p>+57 324 9207921</p>
+                  <p>+571234567890</p>
                 </div>
               </div>
-              <div className="contact-item">
-                <Mail className="contact-icon" />
+                <div className="contact-item">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="contact-icon"
+                >
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zM12 7.25a4.75 4.75 0 1 1 0 9.5 4.75 4.75 0 0 1 0-9.5zm0 1.5a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5zm5.25-.75a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5z" />
+                </svg>
                 <div>
-                  <h4>Email</h4>
-                  <p>info@madeinheaven.com</p>
+                  <h4>Instagram</h4>
+                  <p>madeinheaven.shop_</p>
                 </div>
-              </div>
+                </div>
               <div className="contact-item">
                 <MapPin className="contact-icon" />
                 <div>
@@ -303,28 +347,13 @@ const HomePage: React.FC = () => {
             <div className="contact-form">
               <form className="form">
                 <div className="form-group">
-                  <input
-                    type="text"
-                    placeholder="Nombre completo"
-                    className="form-input"
-                    required
-                  />
+                  <input type="text" placeholder="Nombre completo" className="form-input" required />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="email"
-                    placeholder="Correo electrónico"
-                    className="form-input"
-                    required
-                  />
+                  <input type="email" placeholder="Correo electrónico" className="form-input" required />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="tel"
-                    placeholder="Teléfono"
-                    className="form-input"
-                    required
-                  />
+                  <input type="tel" placeholder="Teléfono" className="form-input" required />
                 </div>
                 <div className="form-group">
                   <textarea
@@ -343,7 +372,6 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="container">
           <div className="footer-content">
@@ -358,7 +386,8 @@ const HomePage: React.FC = () => {
         </div>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage
+

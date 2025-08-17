@@ -17,9 +17,8 @@ const Navbar: React.FC = () => {
 
   const navItems: NavItem[] = [
     { path: '/', label: 'Inicio' },
-    { path: '/servicios', label: 'Servicios' },
     { path: '/productos', label: 'Productos' },
-    { path: '/nosotros', label: 'Nosotros' },
+    { path: '/servicios', label: 'Servicios' },
     { path: '/contacto', label: 'Contacto' }
   ];
 

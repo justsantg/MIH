@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
     {
       icon: <Phone size={18} />,
       text: '+57 324 9207921',
-      href: 'tel:+571234567890'
+      href: 'tel:+573249207921'
     },
     {
       icon: <MapPin size={18} />,

@@ -89,7 +89,7 @@ const FooterView: React.FC<FooterViewProps> = ({
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <p className="footer-copyright">
-              &copy; {currentYear} Made in Heaven. Todos los derechos reservados.
+              &copy; {currentYear} Made in Heaven. Un Producto de ElevaForge.
             </p>
             <div className="footer-bottom-links">
               <a href="#" className="footer-bottom-link">
