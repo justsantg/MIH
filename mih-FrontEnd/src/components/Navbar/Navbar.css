@@ -475,3 +475,28 @@
     padding: 1.5rem;
   }
 }
+
+.navbar-admin-login {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+}
+
+.navbar-admin-login a {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.navbar-admin-login a:hover {
+  background: rgba(8, 65, 92, 0.08);
+}
+
+/* Opcional: oculta el icono en mobile */
+@media (max-width: 1023px) {
+  .navbar-admin-login {
+    display: none;
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, Phone } from 'lucide-react';
+import { ShoppingBag, Phone, User } from 'lucide-react';
 import './Navbar.css';
 
 interface NavItem {
@@ -67,6 +67,13 @@ const NavbarView: React.FC<NavbarViewProps> = ({
             <Link to="/contacto" className="cta-button">
               <Phone size={18} />
               <span>Cotizar</span>
+            </Link>
+          </div>
+
+          {/* Admin Login Icon */}
+          <div className="navbar-admin-login" style={{ marginLeft: '1rem' }}>
+            <Link to="/admin/login" aria-label="Admin Login">
+              <User size={28} style={{ color: '#08415C' }} />
             </Link>
           </div>
 

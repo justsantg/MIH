@@ -12,6 +12,8 @@ import ServicesPage from './pages/Services/Services';
 import ProductsPage from './pages/ProductsPage/ProductsPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import NotFound from './pages/NotFoundPage/NotFound';
+import LoginPage from './pages/Admin/auth/LoginPage';
+import AdminLayout from './pages/Admin/layout/AdminLayout';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="/servicios" element={<ServicesPage />} />
             <Route path="/productos" element={<ProductsPage />} />
             <Route path="/contacto" element={<ContactPage />} />
+            <Route path="/admin/login" element={<LoginPage />} />
+            <Route path="/admin/dashboard" element={<AdminLayout />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
