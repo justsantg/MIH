@@ -18,6 +18,7 @@ import {
   Pause,
 } from "lucide-react"
 import "../HomePage/HomePage.css"
+import type { HTMLFormMethod } from "react-router-dom"
 
 interface CarouselItem {
   id: number
@@ -31,6 +32,8 @@ interface CarouselItem {
 const HomePage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState<boolean>(true)
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const carouselItems: CarouselItem[] = [
     {
@@ -70,24 +73,14 @@ const HomePage: React.FC = () => {
   }, [isAutoPlaying, carouselItems.length])
 
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "services", "products", "about", "contact"]
-      const scrollPos = window.scrollY + 100
-
-      sections.forEach((section) => {
-        const element = document.getElementById(section)
-        if (element) {
-          const { offsetTop, offsetHeight } = element
-          if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
-            // Section tracking can be used for other purposes if needed
-          }
-        }
+    fetch("http://localhost:3000/api/v1/products") // 👈 tu backend
+      .then((res) => res.json())
+      .then((data) => {
+        // el backend devuelve paginación, así que debes acceder a data.data
+        setProducts(data.data ?? []);
       })
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      .catch((err) => console.error("Error cargando productos:", err));
+  }, []);
 
   const scrollToSection = (sectionId: string): void => {
     const element = document.getElementById(sectionId)
@@ -135,14 +128,38 @@ const HomePage: React.FC = () => {
     },
   ]
 
-  const products = [
-    { name: "Camisetas", image: "/images/custom-t-shirt.png", description: "Personalizadas con tu diseño" },
-    { name: "Hoodies", image: "/images/custom-hoodie.png", description: "Comodidad y estilo único" },
-    { name: "Gorras", image: "/images/custom-baseball-cap.png", description: "Accesorios con personalidad" },
-    { name: "Bolsos", image: "/images/custom-tote-bag.png", description: "Funcionales y elegantes" },
-    { name: "Tazas", image: "/images/custom-printed-mug.png", description: "Perfectas para regalos" },
-    { name: "Llaveros", image: "/images/custom-keychain.png", description: "Detalles que marcan diferencia" },
-  ]
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    const newOrder = {
+      fullName: formData.get("fullName"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      message: formData.get("message"),
+      status: "pending",
+    };
+
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newOrder),
+      });
+
+      if (!res.ok) throw new Error("Error enviando la orden");
+
+      alert("✅ Tu pedido ha sido enviado con éxito!");
+      e.currentTarget.reset();
+    } catch (err) {
+      alert("❌ Hubo un error al enviar tu pedido");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="landing-container">
@@ -166,12 +183,12 @@ const HomePage: React.FC = () => {
                             <a href="/contacto" className="router-link">
                               Cotiza con nosotros
                             </a>
-                            </button>
-                            <button className="btn btn-secondary">
+                          </button>
+                          <button className="btn btn-secondary">
                             <a href="/productos" className="router-link">
                               Ver Catálogo
                             </a>
-                            </button>
+                          </button>
                         </div>
                       </div>
                       <div className="slide-image">
@@ -240,21 +257,33 @@ const HomePage: React.FC = () => {
         <div className="container">
           <div className="section-header">
             <h3 className="section-title">Nuestros Productos</h3>
-            <p className="section-subtitle">Una amplia gama de productos para personalizar según tus necesidades</p>
+            <p className="section-subtitle">
+              Una amplia gama de productos para personalizar según tus necesidades
+            </p>
           </div>
 
           <div className="products-grid-modern">
-            {products.map((product, index) => (
-              <div key={index} className="product-card-modern">
+            {products.map((product) => (
+              <div key={product.id} className="product-card-modern">
                 <div className="product-image-modern">
-                  <img src={product.image || "/placeholder.svg"} alt={product.name} />
+                  <img
+                    src={product.imageUrl || "/placeholder.svg"}
+                    alt={product.name}
+                  />
                   <div className="product-overlay">
-                    <button className="product-btn" onClick={() => window.location.href = "/servicios"}>Ver Detalles</button>
+                    <button
+                      className="product-btn"
+                      onClick={() => (window.location.href = "/servicios")}
+                    >
+                      Ver Detalles
+                    </button>
                   </div>
                 </div>
                 <div className="product-info-modern">
                   <h4 className="product-name-modern">{product.name}</h4>
-                  <p className="product-description-modern">{product.description}</p>
+                  <p className="product-description-modern">
+                    {product.description}
+                  </p>
                 </div>
               </div>
             ))}
@@ -321,7 +350,7 @@ const HomePage: React.FC = () => {
                   <p>+571234567890</p>
                 </div>
               </div>
-                <div className="contact-item">
+              <div className="contact-item">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -334,7 +363,7 @@ const HomePage: React.FC = () => {
                   <h4>Instagram</h4>
                   <p>madeinheaven.shop_</p>
                 </div>
-                </div>
+              </div>
               <div className="contact-item">
                 <MapPin className="contact-icon" />
                 <div>
@@ -345,18 +374,37 @@ const HomePage: React.FC = () => {
             </div>
 
             <div className="contact-form">
-              <form className="form">
+              <form className="form" onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <input type="text" placeholder="Nombre completo" className="form-input" required />
+                  <input
+                    name="fullName"
+                    type="text"
+                    placeholder="Nombre completo"
+                    className="form-input"
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <input type="email" placeholder="Correo electrónico" className="form-input" required />
+                  <input
+                    name="email"
+                    type="email"
+                    placeholder="Correo electrónico"
+                    className="form-input"
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <input type="tel" placeholder="Teléfono" className="form-input" required />
+                  <input
+                    name="phone"
+                    type="tel"
+                    placeholder="Teléfono"
+                    className="form-input"
+                    required
+                  />
                 </div>
                 <div className="form-group">
                   <textarea
+                    name="message"
                     placeholder="Mensaje o detalles del pedido"
                     rows={4}
                     className="form-input form-textarea"
