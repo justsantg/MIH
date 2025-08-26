@@ -8,10 +8,10 @@ import { categoriesEntity } from './entities/categories.entity';
   imports: [TypeOrmModule.forFeature([categoriesEntity])],
   providers: [
     {
-      provide: categoriesRepository,
-      useClass: categoriesRelationalRepository,
+      provide: categoriesRepository, // 👈 usamos el abstracto como token
+      useClass: categoriesRelationalRepository, // 👈 implementación concreta
     },
   ],
-  exports: [categoriesRepository],
+  exports: [categoriesRepository], // 👈 exportamos el token abstracto, no la clase concreta
 })
 export class RelationalcategoriesPersistenceModule {}

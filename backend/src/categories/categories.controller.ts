@@ -42,7 +42,7 @@ export class categoriesController {
   @ApiCreatedResponse({
     type: categories,
   })
-  create(@Body() createcategoriesDto: CreatecategoriesDto) {
+  async create(@Body() createcategoriesDto: CreatecategoriesDto) {
     return this.categoriesService.create(createcategoriesDto);
   }
 
@@ -79,7 +79,7 @@ export class categoriesController {
   @ApiOkResponse({
     type: categories,
   })
-  findById(@Param('id') id: string) {
+  async findById(@Param('id') id: string) {
     return this.categoriesService.findById(id);
   }
 
@@ -92,7 +92,7 @@ export class categoriesController {
   @ApiOkResponse({
     type: categories,
   })
-  update(
+  async update(
     @Param('id') id: string,
     @Body() updatecategoriesDto: UpdatecategoriesDto,
   ) {
@@ -105,7 +105,7 @@ export class categoriesController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.categoriesService.remove(id);
   }
 }

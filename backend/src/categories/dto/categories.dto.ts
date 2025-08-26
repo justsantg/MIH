@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsUUID, IsNotEmpty } from 'class-validator';
 
-export class categoriesDto {
+export class CategoryDto {
   @ApiProperty()
-  @IsString()
+  @IsUUID()
   @IsNotEmpty()
   id: string;
 }

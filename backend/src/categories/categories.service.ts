@@ -1,7 +1,4 @@
-import {
-  // common
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreatecategoriesDto } from './dto/create-categories.dto';
 import { UpdatecategoriesDto } from './dto/update-categories.dto';
 import { categoriesRepository } from './infrastructure/persistence/categories.repository';
@@ -11,66 +8,50 @@ import { categories } from './domain/categories';
 @Injectable()
 export class categoriesService {
   constructor(
-    // Dependencies here
     private readonly categoriesRepository: categoriesRepository,
   ) {}
 
   async create(createcategoriesDto: CreatecategoriesDto) {
-    // Do not remove comment below.
-    // <creating-property />
-
     return this.categoriesRepository.create({
-      // Do not remove comment below.
-      // <creating-property-payload />
       deletedAt: createcategoriesDto.deletedAt,
-
       description: createcategoriesDto.description,
-
       name: createcategoriesDto.name,
+      // 👇 No pasamos products aquí, porque se manejan en su propio repositorio
     });
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
+    // 👇 Esto ya devuelve categorías con sus productos gracias al repositorio
     return this.categoriesRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-      },
+      paginationOptions,
     });
   }
 
-  findById(id: categories['id']) {
+  async findById(id: categories['id']) {
+    // 👇 Ya incluye products porque lo resolvemos en el repository
     return this.categoriesRepository.findById(id);
   }
 
-  findByIds(ids: categories['id'][]) {
+  async findByIds(ids: categories['id'][]) {
     return this.categoriesRepository.findByIds(ids);
   }
 
   async update(
     id: categories['id'],
-
     updatecategoriesDto: UpdatecategoriesDto,
   ) {
-    // Do not remove comment below.
-    // <updating-property />
-
     return this.categoriesRepository.update(id, {
-      // Do not remove comment below.
-      // <updating-property-payload />
       deletedAt: updatecategoriesDto.deletedAt,
-
       description: updatecategoriesDto.description,
-
       name: updatecategoriesDto.name,
     });
   }
 
-  remove(id: categories['id']) {
+  async remove(id: categories['id']) {
     return this.categoriesRepository.remove(id);
   }
 }

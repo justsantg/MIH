@@ -11,11 +11,20 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="navbar">
-      <h1 className="navbar-title">Panel de Administración</h1>
-      <button className="logout-btn" onClick={handleLogout}>
-        🚪 Cerrar sesión
-      </button>
+    <header className="admin-navbar">
+      <div className="admin-navbar-content">
+        <h1 className="admin-navbar-title">Panel de Administración</h1>
+        <div className="admin-navbar-actions">
+          <div className="admin-user-info">
+            <span className="admin-user-greeting">Hola, Admin</span>
+            <span className="admin-user-role">Administrador</span>
+          </div>
+          <button className="admin-logout-btn" onClick={handleLogout}>
+            <span className="admin-logout-icon">→⎋</span>
+            <span className="admin-logout-text">Cerrar sesión</span>
+          </button>
+        </div>
+      </div>
     </header>
   );
 };

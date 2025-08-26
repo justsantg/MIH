@@ -28,7 +28,7 @@ const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     if (!token) {
       navigate("/admin/login");
     }
@@ -48,5 +48,3 @@ const AdminLayout: React.FC = () => {
 };
 
 export default AdminLayout;
-
-

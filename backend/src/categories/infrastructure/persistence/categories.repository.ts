@@ -8,9 +8,7 @@ export abstract class categoriesRepository {
     data: Omit<categories, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<categories>;
 
-  abstract findAllWithPagination({
-    paginationOptions,
-  }: {
+  abstract findAllWithPagination(options: {
     paginationOptions: IPaginationOptions;
   }): Promise<categories[]>;
 

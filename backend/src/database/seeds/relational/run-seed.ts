@@ -9,12 +9,13 @@ import { CategoriesSeedService } from './categories/categories.seed.service';
 const runSeed = async () => {
   const app = await NestFactory.create(SeedModule);
 
-  // run
+  // Orden correcto de ejecución
   await app.get(RoleSeedService).run();
   await app.get(StatusSeedService).run();
   await app.get(UserSeedService).run();
-  await app.get(ProductsSeedService).run();
-  await app.get(CategoriesSeedService).run();
+
+  await app.get(CategoriesSeedService).run(); // 👈 primero categorías
+  await app.get(ProductsSeedService).run();   // 👈 luego productos
   
   await app.close();
 };

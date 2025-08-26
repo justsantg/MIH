@@ -3,16 +3,28 @@ import { DeleteDateColumn } from 'typeorm';
 
 export class products {
   @ApiProperty({
+    type: () => Number,
+    nullable: false,
+  })
+  id: number;
+
+  @ApiProperty({
+    type: () => String,
+    nullable: false,
+  })
+  name: string;
+
+  @ApiProperty({
     type: () => String,
     nullable: true,
   })
-  imageUrl?: string | null;
+  description?: string | null;
 
   @ApiProperty({
     type: () => Number,
     nullable: false,
   })
-  stock: number;
+  unitPrice: number;
 
   @ApiProperty({
     type: () => Number,
@@ -24,25 +36,31 @@ export class products {
     type: () => Number,
     nullable: false,
   })
-  unitPrice: number;
+  stock: number;
 
   @ApiProperty({
     type: () => String,
     nullable: true,
   })
-  description?: string | null;
+  imageUrl?: string | null;
+
 
   @ApiProperty({
     type: () => String,
     nullable: false,
   })
-  name: string;
+  categoryId: string;
+
 
   @ApiProperty({
-    type: () => Number,
-    nullable: false,
+    type: () => Object,
+    nullable: true,
   })
-  id: number;
+  category?: {
+    id: string;
+    name: string;
+    description?: string | null;
+  } | null;
 
   @ApiProperty()
   createdAt: Date;

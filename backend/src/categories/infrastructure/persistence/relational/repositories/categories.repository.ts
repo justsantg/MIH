@@ -12,13 +12,13 @@ import { IPaginationOptions } from '../../../../../utils/types/pagination-option
 export class categoriesRelationalRepository implements categoriesRepository {
   constructor(
     @InjectRepository(categoriesEntity)
-    private readonly categoriesRepository: Repository<categoriesEntity>,
+    private readonly ormRepository: Repository<categoriesEntity>, // 👈 renombrado para evitar confusión
   ) {}
 
   async create(data: categories): Promise<categories> {
     const persistenceModel = categoriesMapper.toPersistence(data);
-    const newEntity = await this.categoriesRepository.save(
-      this.categoriesRepository.create(persistenceModel),
+    const newEntity = await this.ormRepository.save(
+      this.ormRepository.create(persistenceModel),
     );
     return categoriesMapper.toDomain(newEntity);
   }
@@ -28,25 +28,28 @@ export class categoriesRelationalRepository implements categoriesRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<categories[]> {
-    const entities = await this.categoriesRepository.find({
+    const entities = await this.ormRepository.find({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
+      relations: ['products'], // 👈 incluimos productos
     });
 
     return entities.map((entity) => categoriesMapper.toDomain(entity));
   }
 
   async findById(id: categories['id']): Promise<NullableType<categories>> {
-    const entity = await this.categoriesRepository.findOne({
+    const entity = await this.ormRepository.findOne({
       where: { id },
+      relations: ['products'], // 👈 incluimos productos
     });
 
     return entity ? categoriesMapper.toDomain(entity) : null;
   }
 
   async findByIds(ids: categories['id'][]): Promise<categories[]> {
-    const entities = await this.categoriesRepository.find({
+    const entities = await this.ormRepository.find({
       where: { id: In(ids) },
+      relations: ['products'], // 👈 incluimos productos
     });
 
     return entities.map((entity) => categoriesMapper.toDomain(entity));
@@ -56,7 +59,7 @@ export class categoriesRelationalRepository implements categoriesRepository {
     id: categories['id'],
     payload: Partial<categories>,
   ): Promise<categories> {
-    const entity = await this.categoriesRepository.findOne({
+    const entity = await this.ormRepository.findOne({
       where: { id },
     });
 
@@ -64,8 +67,8 @@ export class categoriesRelationalRepository implements categoriesRepository {
       throw new Error('Record not found');
     }
 
-    const updatedEntity = await this.categoriesRepository.save(
-      this.categoriesRepository.create(
+    const updatedEntity = await this.ormRepository.save(
+      this.ormRepository.create(
         categoriesMapper.toPersistence({
           ...categoriesMapper.toDomain(entity),
           ...payload,
@@ -77,6 +80,6 @@ export class categoriesRelationalRepository implements categoriesRepository {
   }
 
   async remove(id: categories['id']): Promise<void> {
-    await this.categoriesRepository.delete(id);
+    await this.ormRepository.delete(id);
   }
 }

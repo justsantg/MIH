@@ -11,7 +11,6 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 🔑 Aquí llamas a tu API de login (NestJS AuthController)
     try {
       const res = await fetch("http://localhost:3000/api/v1/auth/email/login", {
         method: "POST",
@@ -25,10 +24,16 @@ const LoginPage: React.FC = () => {
 
       const data = await res.json();
 
-      // Guardar token en localStorage
-      localStorage.setItem("token", data.accessToken);
+      // Guardamos el token y refreshToken en localStorage
+      localStorage.setItem("accessToken", data.token);
+      localStorage.setItem("refreshToken", data.refreshToken);
 
-      // Redirigir al dashboard
+      // 🔒 Verificar que el usuario sea admin (opcional, si tu API devuelve rol)
+      // if (data.user?.role?.name !== "Admin") {
+      //   throw new Error("No tienes permisos de administrador");
+      // }
+
+      // Redirigir al dashboard de administrador
       navigate("/admin/dashboard");
     } catch (err: any) {
       setError(err.message || "Error al iniciar sesión");
