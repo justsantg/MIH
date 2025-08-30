@@ -16,6 +16,8 @@ import NotFound from './pages/NotFoundPage/NotFound';
 import AdminLayout from './pages/Admin/layout/AdminLayout';
 import LoginPage from './pages/Admin/Auth/LoginPage';
 import ProductsAdminPage from './pages/Admin/products/ProductsAdminPage';
+import CategoriesAdminPage from './pages/Admin/categories/CategoriesAdminPage';
+import UsersAdminPage from './pages/Admin/users/UsersAdminPage';
 
 function App() {
   return (
@@ -31,6 +33,10 @@ function App() {
             <Route path="/admin/login" element={<LoginPage />} />
             <Route path="/admin/dashboard" element={<AdminLayout />} />
             <Route path="/admin/products" element={<ProductsAdminPage />} />
+            <Route path="/admin/categories" element={<CategoriesAdminPage />} />
+            <Route path="/admin/users" element={<UsersAdminPage />} />
+
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
