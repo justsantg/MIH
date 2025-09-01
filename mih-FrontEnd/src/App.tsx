@@ -18,6 +18,7 @@ import LoginPage from './pages/Admin/Auth/LoginPage';
 import ProductsAdminPage from './pages/Admin/products/ProductsAdminPage';
 import CategoriesAdminPage from './pages/Admin/categories/CategoriesAdminPage';
 import UsersAdminPage from './pages/Admin/users/UsersAdminPage';
+import AdminDashboard from './pages/Admin/dashboard/DashboardPage';
 
 function App() {
   return (
@@ -31,7 +32,7 @@ function App() {
             <Route path="/productos" element={<ProductsPage />} />
             <Route path="/contacto" element={<ContactPage />} />
             <Route path="/admin/login" element={<LoginPage />} />
-            <Route path="/admin/dashboard" element={<AdminLayout />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/products" element={<ProductsAdminPage />} />
             <Route path="/admin/categories" element={<CategoriesAdminPage />} />
             <Route path="/admin/users" element={<UsersAdminPage />} />

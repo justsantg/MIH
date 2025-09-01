@@ -13,16 +13,18 @@ interface ProductFormData {
   unitPrice: string;
   wholesalePrice: string;
   stock: string;
-  imageUrl: string;
   categoryId: string;
+  imageFile?: File | null;       // 👈 archivo real
+  imagePreview?: string | null;  // 👈 para mostrar la vista previa
 }
+
 
 interface ProductsFormProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (productData: ProductFormData) => void;
   initialData?: ProductFormData | null;
-  categories: Category[];
+  categories: { id: string; name: string; description: string }[];
   title: string;
 }
 
@@ -34,35 +36,47 @@ const ProductsForm: React.FC<ProductsFormProps> = ({
   categories,
   title
 }) => {
-  const [formData, setFormData] = useState<ProductFormData>({
-    name: "",
-    description: "",
-    unitPrice: "",
-    wholesalePrice: "",
-    stock: "",
-    imageUrl: "",
-    categoryId: ""
-  });
+ const [formData, setFormData] = useState<ProductFormData>({
+  name: "",
+  description: "",
+  unitPrice: "",
+  wholesalePrice: "",
+  stock: "",
+  categoryId: "",
+  imageFile: null,
+  imagePreview: null
+});
+
 
   const [errors, setErrors] = useState<Partial<ProductFormData>>({});
 
   // Cargar datos iniciales cuando el modal se abre o initialData cambia
   useEffect(() => {
-    if (initialData) {
-      setFormData(initialData);
-    } else {
-      setFormData({
-        name: "",
-        description: "",
-        unitPrice: "",
-        wholesalePrice: "",
-        stock: "",
-        imageUrl: "",
-        categoryId: ""
-      });
-    }
-    setErrors({});
-  }, [initialData, isOpen]);
+  if (initialData) {
+    setFormData({
+      name: initialData.name,
+      description: initialData.description || "",
+      unitPrice: initialData.unitPrice || "",
+      wholesalePrice: initialData.wholesalePrice || "",
+      stock: initialData.stock || "",
+      categoryId: initialData.categoryId || "",
+      imageFile: null, // 👈 no hay archivo aún
+      imagePreview: initialData.imagePreview || null, // 👈 preview de la imagen existente
+    });
+  } else {
+    setFormData({
+      name: "",
+      description: "",
+      unitPrice: "",
+      wholesalePrice: "",
+      stock: "",
+      categoryId: "",
+      imageFile: null,
+      imagePreview: null,
+    });
+  }
+}, [initialData, isOpen]);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -102,25 +116,27 @@ const ProductsForm: React.FC<ProductsFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       onSubmit(formData);
     }
   };
 
   const handleClose = () => {
-    setFormData({
-      name: "",
-      description: "",
-      unitPrice: "",
-      wholesalePrice: "",
-      stock: "",
-      imageUrl: "",
-      categoryId: ""
-    });
-    setErrors({});
-    onClose();
-  };
+  setFormData({
+    name: "",
+    description: "",
+    unitPrice: "",
+    wholesalePrice: "",
+    stock: "",
+    categoryId: "",
+    imageFile: null,
+    imagePreview: null
+  });
+  setErrors({});
+  onClose();
+};
+
 
   if (!isOpen) return null;
 
@@ -223,23 +239,30 @@ const ProductsForm: React.FC<ProductsFormProps> = ({
           </div>
 
           <div className="form-group">
-            <label htmlFor="imageUrl">URL de la Imagen</label>
+            <label htmlFor="imageFile">Imagen del Producto</label>
             <input
-              type="url"
-              id="imageUrl"
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              placeholder="https://ejemplo.com/imagen.jpg"
+              type="file"
+              id="imageFile"
+              name="imageFile"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                  const file = e.target.files[0];
+                  setFormData({ ...formData, imageFile: file });
+
+                  // 👉 Vista previa
+                  const previewUrl = URL.createObjectURL(file);
+                  setFormData((prev) => ({ ...prev, imagePreview: previewUrl }));
+                }
+              }}
             />
-            {formData.imageUrl && (
+            {formData.imagePreview && (
               <div className="image-preview">
-                <img src={formData.imageUrl} alt="Vista previa" onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }} />
+                <img src={formData.imagePreview} alt="Vista previa" />
               </div>
             )}
           </div>
+
 
           <div className="form-actions">
             <button type="button" onClick={handleClose} className="btn btn-cancel">

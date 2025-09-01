@@ -20,6 +20,11 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { AllConfigType } from './config/config.type';
 import { SessionModule } from './session/session.module';
 import { MailerModule } from './mailer/mailer.module';
+import { productsModule } from './products/products.module';
+import { CategoriesModule } from './categories/categories.module';
+import { ordersModule } from './orders/orders.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   useClass: TypeOrmConfigService,
@@ -28,11 +33,13 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   },
 });
 
-import { productsModule } from './products/products.module';
-import { CategoriesModule } from './categories/categories.module';
-import { ordersModule } from './orders/orders.module';
-
 @Module({
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
   imports: [
     ordersModule,
     CategoriesModule,

@@ -1,30 +1,61 @@
-import React, { useEffect, useState } from 'react';
-import './ProductsPage.css';
+import React, { useEffect, useState } from "react";
+import "./ProductsPage.css";
 
 const WHATSAPP_NUMBER = "573249207921";
+
+// 👉 Base URL del backend (puedes moverlo a un .env)
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+interface Category {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface Product {
+  id: number;
+  name: string;
+  description?: string;
+  unitPrice: number;
+  wholesalePrice?: number;
+  stock: number;
+  imageUrl?: string;
+  categoryId: string;
+  createdAt: string;
+  updatedAt: string;
+  category?: Category;
+}
+
 const ProductsPage: React.FC = () => {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data.data); // 👈 porque backend devuelve { data, meta }
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/v1/products`);
+        if (res.ok) {
+          const data = await res.json();
+          setProducts(data.data || []); // ✅ backend responde { data, meta }
+        } else {
+          console.error("Error fetching products:", res.status);
+          setProducts([]);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setProducts([]);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error cargando productos:", err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchProducts();
   }, []);
 
-  // 👇 Agrupar productos por categoría
-  const productsByCategory = products.reduce((acc: any, product: any) => {
+  // Agrupar productos por categoría
+  const productsByCategory = products.reduce((acc: any, product: Product) => {
     const category = product.category?.name || "Sin categoría";
-    if (!acc[category]) {
-      acc[category] = [];
-    }
+    if (!acc[category]) acc[category] = [];
     acc[category].push(product);
     return acc;
   }, {});
@@ -49,46 +80,37 @@ const ProductsPage: React.FC = () => {
               <div key={idx} className="category-section">
                 <h2 className="category-title">{category}</h2>
                 <div className="products-grid">
-                  {productsByCategory[category].map((product: any, pIdx: number) => {
-                    const whatsappMessage = encodeURIComponent(
-                      `Hola, quiero más información sobre el producto: ${product.name}`
-                    );
-                    const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
-
-                    return (
-                      <div className="product-card" key={pIdx}>
-                        <div className="product-image">
-                          {product.imageUrl ? (
-                            <img
-                              src={product.imageUrl}
-                              alt={product.name}
-                              className="product-img-tag"
-                              style={{ maxHeight: "80px" }}
-                            />
-                          ) : (
-                            <span className="product-emoji">📦</span>
-                          )}
-                        </div>
-                        <div className="product-info">
-                          <h4 className="product-name">{product.name}</h4>
-                          <p className="product-description">{product.description}</p>
-                        </div>
-                        {/* 👇 Botón WhatsApp */}
-                        {/* 👇 Botón WhatsApp */}
-                        <a
-                          href={`https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(
-                            `Hola, quiero más información sobre el producto: ${product.name}`
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-whatsapp"
-                        >
-                          Preguntar por WhatsApp
-                        </a>
-
+                  {productsByCategory[category].map((product: Product) => (
+                    <div className="product-card" key={product.id}>
+                      <div className="product-image">
+                        {product.imageUrl ? (
+                          <img
+                            src={`${API_BASE}${product.imageUrl}`} // 👈 aseguramos la URL completa
+                            alt={product.name}
+                            className="product-img-tag"
+                            style={{ maxHeight: "120px" }}
+                          />
+                        ) : (
+                          <span className="product-emoji">📦</span>
+                        )}
                       </div>
-                    );
-                  })}
+                      <div className="product-info">
+                        <h4 className="product-name">{product.name}</h4>
+                        <p className="product-description">{product.description}</p>
+                      </div>
+                      {/* Botón WhatsApp */}
+                      <a
+                        href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                          `Hola, quiero más información sobre el producto: ${product.name}`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-whatsapp"
+                      >
+                        Preguntar por WhatsApp
+                      </a>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))

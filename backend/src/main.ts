@@ -12,9 +12,11 @@ import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
 import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
 
@@ -30,11 +32,14 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe(validationOptions));
   app.useGlobalInterceptors(
-    // ResolvePromisesInterceptor is used to resolve promises in responses because class-transformer can't do it
-    // https://github.com/typestack/class-transformer/issues/549
     new ResolvePromisesInterceptor(),
     new ClassSerializerInterceptor(app.get(Reflector)),
   );
+
+  // 👇 Servir carpeta uploads como estática
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/', // URL base pública
+  });
 
   const options = new DocumentBuilder()
     .setTitle('API')

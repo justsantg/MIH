@@ -4,6 +4,7 @@ import "./ProductsAdminPage.css";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import ProductsForm from "./ProductForm/ProductForm";
+import type { ProductFormData } from "./types/product";
 
 interface Category {
   id: string;
@@ -23,16 +24,6 @@ interface Product {
   createdAt: string;
   updatedAt: string;
   category: Category;
-}
-
-interface ProductFormData {
-  name: string;
-  description: string;
-  unitPrice: string;
-  wholesalePrice: string;
-  stock: string;
-  imageUrl: string;
-  categoryId: string;
 }
 
 const ProductsAdminPage: React.FC = () => {
@@ -111,22 +102,28 @@ const ProductsAdminPage: React.FC = () => {
       const token = localStorage.getItem("accessToken");
       const isEditing = !!editingProduct;
 
-      // DEBUG: Verificar los datos del formulario
-      console.log("Datos del formulario:", formData);
-      console.log("CategoryId recibido:", formData.categoryId);
-      console.log("Tipo de categoryId:", typeof formData.categoryId);
+      let imageUrl = editingProduct?.imageUrl || "";
 
-      // Verificar que categoryId tenga un valor válido (UUID)
-      if (!formData.categoryId || formData.categoryId === "" || formData.categoryId === "null" || formData.categoryId === "undefined") {
-        alert("Por favor selecciona una categoría válida");
-        return;
-      }
+      // 🚨 Si el usuario subió un archivo nuevo
+      if (formData.imageFile) {
+        const imageData = new FormData();
+        imageData.append("file", formData.imageFile);
 
-      // Verificar que el categoryId tenga formato UUID
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      if (!uuidRegex.test(formData.categoryId)) {
-        alert("El ID de categoría no tiene un formato válido (UUID)");
-        return;
+        const uploadRes = await fetch("http://localhost:3000/api/v1/products/upload-image", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: imageData,
+        });
+
+        if (uploadRes.ok) {
+          const uploadResult = await uploadRes.json();
+          imageUrl = uploadResult.url; // 👈 la URL que devuelve el backend
+        } else {
+          alert("Error al subir la imagen");
+          return;
+        }
       }
 
       let url = "http://localhost:3000/api/v1/products";
@@ -137,40 +134,15 @@ const ProductsAdminPage: React.FC = () => {
         url = `http://localhost:3000/api/v1/products/${editingProduct.id}`;
       }
 
-      if (isEditing) {
-        method = "PATCH";
-        url = `http://localhost:3000/api/v1/products/${editingProduct.id}`;
-      }
-
       const productData: any = {
-        imageUrl: formData.imageUrl || undefined,
-        stock: parseInt(formData.stock),
-        wholesalePrice: formData.wholesalePrice && formData.wholesalePrice !== ""
-          ? parseFloat(formData.wholesalePrice)
-          : undefined,
-        unitPrice: parseFloat(formData.unitPrice),
-        description: formData.description || undefined,
         name: formData.name,
+        description: formData.description || undefined,
+        unitPrice: parseFloat(formData.unitPrice),
+        wholesalePrice: formData.wholesalePrice ? parseFloat(formData.wholesalePrice) : undefined,
+        stock: parseInt(formData.stock),
         categoryId: formData.categoryId,
+        imageUrl, // 👈 se guarda la URL generada
       };
-
-      // Solo agregar id en update
-      if (isEditing && editingProduct?.id) {
-        productData.id = editingProduct.id;
-      }
-
-
-
-      // Limpiar campos undefined para que no causen problemas
-      Object.keys(productData).forEach(key => {
-        if (productData[key] === undefined) {
-          delete productData[key];
-        }
-      });
-
-      console.log("Enviando datos al servidor (orden corregido):", productData);
-      console.log("URL:", url);
-      console.log("Método:", method);
 
       const response = await fetch(url, {
         method,
@@ -182,68 +154,23 @@ const ProductsAdminPage: React.FC = () => {
       });
 
       const responseData = await response.json();
-      console.log("Respuesta completa del servidor:", responseData);
 
       if (response.ok) {
         setIsModalOpen(false);
         setEditingProduct(null);
-
-        // Si es una creación, agregar el nuevo producto con la categoría completa
-        if (!isEditing && responseData.data) {
-          const newProduct = responseData.data;
-
-          // Buscar la categoría completa por el ID
-          const fullCategory = categories.find(cat => cat.id === newProduct.categoryId);
-
-          if (fullCategory) {
-            // Asignar la categoría completa al nuevo producto
-            newProduct.category = fullCategory;
-          } else {
-            // Si no encontramos la categoría, crear un objeto mínimo
-            newProduct.category = {
-              id: newProduct.categoryId,
-              name: "Cargando...",
-              description: ""
-            };
-          }
-
-          // Agregar el nuevo producto a la lista
-          setProducts(prevProducts => [newProduct, ...prevProducts]);
-        } else {
-          // Recargar la lista completa de productos para ediciones
-          await fetchProducts();
-        }
-
+        await fetchProducts();
         alert(isEditing ? "Producto actualizado correctamente" : "Producto creado correctamente");
       } else {
         console.error("Error detallado del servidor:", responseData);
-
-        // Mostrar errores específicos del servidor
-        if (responseData.errors) {
-          const errorMessages: string[] = [];
-
-          Object.entries(responseData.errors).forEach(([field, messages]) => {
-            if (Array.isArray(messages)) {
-              messages.forEach((message: string) => {
-                errorMessages.push(`${field}: ${message}`);
-              });
-            } else {
-              errorMessages.push(`${field}: ${messages}`);
-            }
-          });
-
-          alert(`Errores de validación:\n${errorMessages.join('\n')}`);
-        } else if (responseData.message) {
-          alert(`Error: ${responseData.message}`);
-        } else {
-          alert("Error desconocido al guardar el producto");
-        }
+        alert(responseData.message || "Error al guardar el producto");
       }
     } catch (error) {
       console.error("Error saving product:", error);
       alert("Error al conectar con el servidor");
     }
   };
+
+
 
   const handleDelete = async (productId: number) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) {
@@ -274,7 +201,6 @@ const ProductsAdminPage: React.FC = () => {
     setEditingProduct(null);
   };
 
-  // Función para formatear precios en pesos colombianos
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('es-CO', {
       style: 'currency',
@@ -284,25 +210,13 @@ const ProductsAdminPage: React.FC = () => {
     }).format(price);
   };
 
-  // Función para obtener el nombre de la categoría de forma segura
   const getCategoryName = (product: Product): string => {
-    if (product.category) {
-      return product.category.name;
-    }
-
-    // Si no hay categoría en el producto, buscar en la lista de categorías
-    const category = categories.find(cat => cat.id === product.categoryId);
+    const category = product.category || categories.find(cat => cat.id === product.categoryId);
     return category ? category.name : "Sin categoría";
   };
 
-  // Función para obtener la descripción de la categoría de forma segura
   const getCategoryDescription = (product: Product): string => {
-    if (product.category) {
-      return product.category.description;
-    }
-
-    // Si no hay categoría en el producto, buscar en la lista de categorías
-    const category = categories.find(cat => cat.id === product.categoryId);
+    const category = product.category || categories.find(cat => cat.id === product.categoryId);
     return category ? category.description : "";
   };
 
@@ -326,7 +240,6 @@ const ProductsAdminPage: React.FC = () => {
         <div className="admin-content">
           <div className="page-header">
             <h1>📦 Gestión de Productos</h1>
-
             <button onClick={handleCreateProduct} className="btn btn-primary">
               ➕ Nuevo Producto
             </button>
@@ -354,13 +267,16 @@ const ProductsAdminPage: React.FC = () => {
                     <td>{product.id}</td>
                     <td>
                       {product.imageUrl ? (
-                        <img src={product.imageUrl} alt={product.name} className="product-image" />
+                        <img
+                          src={`http://localhost:3000${product.imageUrl}`}
+                          alt={product.name}
+                          className="product-image"
+                        />
                       ) : (
-                        <div className="product-image-placeholder">
-                          📦
-                        </div>
+                        <div className="product-image-placeholder">📦</div>
                       )}
                     </td>
+
                     <td>
                       <div className="product-name">{product.name}</div>
                       {product.description && (
@@ -371,10 +287,8 @@ const ProductsAdminPage: React.FC = () => {
                         </div>
                       )}
                     </td>
-                    <td>{formatPrice(parseFloat(product.unitPrice.toString()))}</td>
-                    <td>
-                      {product.wholesalePrice ? formatPrice(parseFloat(product.wholesalePrice.toString())) : "N/A"}
-                    </td>
+                    <td>{formatPrice(product.unitPrice)}</td>
+                    <td>{product.wholesalePrice ? formatPrice(product.wholesalePrice) : "N/A"}</td>
                     <td>
                       <span className={`stock-badge ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
                         {product.stock}
@@ -386,21 +300,9 @@ const ProductsAdminPage: React.FC = () => {
                     </td>
                     <td>
                       <div className="action-buttons">
-                        <Link to={`/admin/products/view/${product.id}`} className="btn btn-view">
-                          👁️ Ver
-                        </Link>
-                        <button
-                          onClick={() => handleEditProduct(product)}
-                          className="btn btn-edit"
-                        >
-                          ✏️ Editar
-                        </button>
-                        <button
-                          onClick={() => handleDelete(product.id)}
-                          className="btn btn-delete"
-                        >
-                          🗑️ Eliminar
-                        </button>
+                        <Link to={`/admin/products/view/${product.id}`} className="btn btn-view">👁️ Ver</Link>
+                        <button onClick={() => handleEditProduct(product)} className="btn btn-edit">✏️ Editar</button>
+                        <button onClick={() => handleDelete(product.id)} className="btn btn-delete">🗑️ Eliminar</button>
                       </div>
                     </td>
                   </tr>
@@ -409,7 +311,6 @@ const ProductsAdminPage: React.FC = () => {
             </table>
           )}
 
-          {/* Modal de formulario de productos */}
           <ProductsForm
             isOpen={isModalOpen}
             onClose={handleCloseModal}
@@ -420,8 +321,7 @@ const ProductsAdminPage: React.FC = () => {
               unitPrice: editingProduct.unitPrice.toString(),
               wholesalePrice: editingProduct.wholesalePrice?.toString() || "",
               stock: editingProduct.stock.toString(),
-              imageUrl: editingProduct.imageUrl || "",
-              categoryId: editingProduct.categoryId
+              categoryId: editingProduct.categoryId,
             } : null}
             categories={categories}
             title={editingProduct ? "Editar Producto" : "Crear Nuevo Producto"}
