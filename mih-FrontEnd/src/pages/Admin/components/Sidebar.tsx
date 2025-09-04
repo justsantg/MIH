@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
-const Sidebar: React.FC = () => {
+const AdminSidebar: React.FC = () => {
   const location = useLocation();
 
   const links = [
@@ -13,14 +13,14 @@ const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="sidebar">
-      <h2 className="sidebar-title">Admin Panel</h2>
-      <nav className="sidebar-nav">
+    <aside className="admin-sidebar-component">
+      <h2 className="admin-sidebar-title">⚙️ Admin Panel</h2>
+      <nav className="admin-sidebar-nav">
         {links.map((link) => (
           <Link
             key={link.path}
             to={link.path}
-            className={`sidebar-link ${
+            className={`admin-sidebar-link ${
               location.pathname === link.path ? "active" : ""
             }`}
           >
@@ -32,4 +32,4 @@ const Sidebar: React.FC = () => {
   );
 };
 
-export default Sidebar;
+export default AdminSidebar;

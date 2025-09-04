@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./ProductsAdminPage.css";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
 import ProductsForm from "./ProductForm/ProductForm";
 import type { ProductFormData } from "./types/product";
 
@@ -222,9 +220,9 @@ const ProductsAdminPage: React.FC = () => {
 
   if (loading || categoriesLoading) return (
     <div className="admin-layout">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="admin-main">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="admin-content">
           <p>Cargando productos...</p>
         </div>
@@ -234,9 +232,9 @@ const ProductsAdminPage: React.FC = () => {
 
   return (
     <div className="admin-layout">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="admin-main">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="admin-content">
           <div className="page-header">
             <h1>📦 Gestión de Productos</h1>

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./UsersAdminPage.css";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
 import UserForm from "./UserForm/UserForm";
 
 
@@ -119,9 +117,9 @@ const UsersAdminPage: React.FC = () => {
   if (loading) {
     return (
       <div className="admin-layout">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="admin-main">
-          <Navbar />
+          {/* <Navbar /> */}
           <div className="admin-content">
             <p>Cargando usuarios...</p>
           </div>
@@ -132,9 +130,9 @@ const UsersAdminPage: React.FC = () => {
 
   return (
     <div className="admin-layout">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="admin-main">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="admin-content">
           <div className="page-header">
             <h1>👤 Gestión de Administradores</h1>

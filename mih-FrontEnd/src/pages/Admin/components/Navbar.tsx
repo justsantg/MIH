@@ -2,11 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
-const Navbar: React.FC = () => {
+const AdminNavbar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken"); // Cambiado para consistencia con AdminLayout
     navigate("/admin/login");
   };
 
@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
             <span className="admin-user-role">Administrador</span>
           </div>
           <button className="admin-logout-btn" onClick={handleLogout}>
-            <span className="admin-logout-icon">→⎋</span>
+            <span className="admin-logout-icon">🚪</span>
             <span className="admin-logout-text">Cerrar sesión</span>
           </button>
         </div>
@@ -29,4 +29,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default AdminNavbar;

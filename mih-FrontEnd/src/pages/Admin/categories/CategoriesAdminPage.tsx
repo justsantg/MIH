@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./CategoriesAdminPage.css";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
 import CategoryForm from "./CategoryForm/CategoryForm";
 
 interface Category {
@@ -103,9 +101,7 @@ const CategoriesAdminPage: React.FC = () => {
   if (loading) {
     return (
       <div className="admin-layout">
-        <Sidebar />
         <div className="admin-main">
-          <Navbar />
           <div className="admin-content">
             <p>Cargando categorías...</p>
           </div>
@@ -116,9 +112,7 @@ const CategoriesAdminPage: React.FC = () => {
 
   return (
     <div className="admin-layout">
-      <Sidebar />
       <div className="admin-main">
-        <Navbar />
         <div className="admin-content">
           <div className="page-header">
             <h1>📂 Gestión de Categorías</h1>

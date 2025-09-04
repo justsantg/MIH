@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
 import "./DashboardPage.css";
 
 interface Stats {
@@ -52,9 +50,9 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="admin-layout">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="admin-main">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="admin-content">
           <h1>📊 Dashboard del Administrador</h1>
 
