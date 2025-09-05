@@ -1,50 +1,169 @@
-.categories-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
+/* CategoriesAdminPage.css - Estilos específicos para la página de categorías */
+
+.categories-admin-page {
+  width: 100%;
+  min-height: 100%;
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.category-list {
-  list-style: none;
-  padding: 0;
-}
-
-.category-item {
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  background: #f9f9f9;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
 }
 
+.page-header h1 {
+  color: #2d3748;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+/* Estilos para botones */
 .btn {
-  padding: 8px 12px;
-  margin: 0 4px;
-  border: none;
-  border-radius: 6px;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.9rem;
   cursor: pointer;
-  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .btn-primary {
-  background: #007bff;
-  color: white;
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-edit {
-  background: #ffc107;
-  color: black;
+  background-color: #FF9800;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.btn-edit:hover {
+  background-color: #e68a00;
 }
 
 .btn-delete {
-  background: #dc3545;
-  color: white;
+  background-color: #F44336;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.btn-delete:hover {
+  background-color: #d32f2f;
+}
+
+/* Estilos para la tabla de categorías */
+.categories-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.categories-table th {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid #e9ecef;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.categories-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.categories-table tr:last-child td {
+  border-bottom: none;
+}
+
+.categories-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Estilos para información de categorías */
+.category-name {
+  font-weight: bold;
+  color: #2d3748;
+}
+
+.category-description {
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+/* Estilos para botones de acción */
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .categories-table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .categories-table th,
+  .categories-table td {
+    padding: 0.75rem;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .btn-edit,
+  .btn-delete {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+  }
+  
+  .categories-table {
+    font-size: 0.9rem;
+  }
+  
+  .categories-table th,
+  .categories-table td {
+    padding: 0.5rem;
+  }
 }

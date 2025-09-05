@@ -1,80 +1,58 @@
-:root {
-  --admin-primary-dark: #2c3e50;
-  --admin-primary-light: #34495e;
-  --admin-accent-color: #3498db;
-  --admin-white: #ffffff;
-  --admin-light-gray: #f8f9fa;
-  --admin-medium-gray: #e9ecef;
-  --admin-dark-gray: #6c757d;
-  --admin-text-dark: #2d3748;
-  --admin-text-light: #718096;
-  --admin-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-  --admin-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+/* ProductsAdminPage.css - Solo estilos específicos de la página de productos */
+
+.products-admin-page {
+  width: 100%;
+  min-height: 100%;
 }
 
-/* Estilos generales para el layout de administración */
-.admin-layout {
-  display: flex;
-  min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f5f5f5;
-}
-
-.admin-main {
-  flex: 1;
-  margin-left: 250px; /* Ajusta según el ancho de tu sidebar */
-  width: calc(100% - 250px);
-}
-
-.admin-content {
-  padding: 20px;
-}
-
-/* Estilos para el encabezado de página */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--admin-medium-gray);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .page-header h1 {
-  color: var(--admin-text-dark);
+  color: #2d3748;
   margin: 0;
-  font-size: 24px;
+  font-size: 1.75rem;
+  font-weight: 600;
 }
 
 /* Estilos para botones */
 .btn {
   display: inline-block;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
   text-decoration: none;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: pointer;
   border: none;
-  transition: var(--admin-transition);
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .btn-primary {
-  background-color: var(--admin-accent-color);
-  color: var(--admin-white);
+  background-color: #3498db;
+  color: #ffffff;
 }
 
 .btn-primary:hover {
   background-color: #2980b9;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-view {
-  background-color: var(--admin-accent-color);
-  color: var(--admin-white);
-  padding: 6px 10px;
-  margin-bottom: 8px;
+  background-color: #3498db;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
   width: 100%;
+  font-size: 0.85rem;
 }
 
 .btn-view:hover {
@@ -83,10 +61,11 @@
 
 .btn-edit {
   background-color: #FF9800;
-  color: var(--admin-white);
-  padding: 6px 10px;
-  margin-bottom: 8px;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
   width: 100%;
+  font-size: 0.85rem;
 }
 
 .btn-edit:hover {
@@ -95,9 +74,10 @@
 
 .btn-delete {
   background-color: #F44336;
-  color: var(--admin-white);
-  padding: 6px 10px;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
   width: 100%;
+  font-size: 0.85rem;
 }
 
 .btn-delete:hover {
@@ -108,24 +88,24 @@
 .products-table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: var(--admin-shadow);
-  background-color: var(--admin-white);
-  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border-radius: 0.5rem;
   overflow: hidden;
 }
 
 .products-table th {
-  padding: 12px;
+  padding: 1rem;
   text-align: left;
-  border-bottom: 2px solid var(--admin-medium-gray);
-  background-color: var(--admin-light-gray);
+  border-bottom: 2px solid #e9ecef;
+  background-color: #f8f9fa;
   font-weight: 600;
-  color: var(--admin-text-dark);
+  color: #2d3748;
 }
 
 .products-table td {
-  padding: 12px;
-  border-bottom: 1px solid var(--admin-medium-gray);
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
 }
 
 .products-table tr:last-child td {
@@ -133,7 +113,7 @@
 }
 
 .products-table tr:hover {
-  background-color: var(--admin-light-gray);
+  background-color: #f8f9fa;
 }
 
 /* Estilos para imágenes de productos */
@@ -141,36 +121,38 @@
   width: 50px;
   height: 50px;
   object-fit: cover;
-  border-radius: 4px;
+  border-radius: 0.25rem;
 }
 
 .product-image-placeholder {
   width: 50px;
   height: 50px;
-  background-color: var(--admin-light-gray);
+  background-color: #f8f9fa;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  font-size: 20px;
+  border-radius: 0.25rem;
+  font-size: 1.25rem;
 }
 
 /* Estilos para información de productos */
 .product-name {
   font-weight: bold;
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
+  color: #2d3748;
 }
 
 .product-description {
-  font-size: 0.9em;
-  color: var(--admin-text-light);
+  font-size: 0.9rem;
+  color: #718096;
 }
 
 /* Estilos para badges de stock */
 .stock-badge {
-  padding: 4px 8px;
-  border-radius: 12px;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.75rem;
   font-weight: bold;
+  font-size: 0.85rem;
 }
 
 .stock-badge.in-stock {
@@ -186,39 +168,29 @@
 /* Estilos para información de categoría */
 .category-name {
   font-weight: bold;
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
+  color: #2d3748;
 }
 
 .category-description {
-  font-size: 0.9em;
-  color: var(--admin-text-light);
+  font-size: 0.9rem;
+  color: #718096;
 }
 
 /* Estilos para botones de acción */
 .action-buttons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
   min-width: 100px;
 }
 
 /* Responsive design */
-@media (max-width: 1024px) {
-  .admin-main {
-    margin-left: 0;
-    width: 100%;
-  }
-}
-
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
-  }
-  
-  .admin-content {
-    padding: 15px;
+    gap: 1rem;
   }
   
   .products-table {
@@ -228,20 +200,21 @@
   
   .products-table th,
   .products-table td {
-    padding: 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .admin-content {
-    padding: 10px;
-  }
-  
-  .page-header h1 {
-    font-size: 20px;
+    padding: 0.75rem;
   }
   
   .action-buttons {
     min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
   }
 }

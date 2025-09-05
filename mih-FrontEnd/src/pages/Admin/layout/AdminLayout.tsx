@@ -33,6 +33,12 @@ const Sidebar: React.FC = () => {
         >
           👤 Usuarios
         </Link>
+        <Link 
+          to="/admin/orders" 
+          className={`sidebar-link ${location.pathname === '/admin/orders' ? 'active' : ''}`}
+        >
+          📋 Ordenes
+        </Link>
       </nav>
     </aside>
   );
@@ -48,23 +54,22 @@ const AdminLayout: React.FC = () => {
     }
   }, [navigate]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    navigate("/admin/login");
+  };
+
   return (
     <div className="admin-panel-layout">
       <Sidebar />
-      <div className="admin-main">
-        <div className="admin-topbar">
+      <div className="admin-main-content">
+        <header className="admin-topbar">
           <h1 className="topbar-title">Panel de Administración</h1>
-          <button
-            className="logout-btn"
-            onClick={() => {
-              localStorage.removeItem("accessToken");
-              navigate("/admin/login");
-            }}
-          >
+          <button className="logout-btn" onClick={handleLogout}>
             🚪 Cerrar Sesión
           </button>
-        </div>
-        <main className="admin-panel-content">
+        </header>
+        <main className="admin-content-area">
           <Outlet />
         </main>
       </div>

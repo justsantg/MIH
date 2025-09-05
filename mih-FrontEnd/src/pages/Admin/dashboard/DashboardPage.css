@@ -1,116 +1,140 @@
-/* Estilos específicos para el Dashboard - con namespace admin-panel-layout */
-.admin-panel-layout .dashboard-container {
-  padding: 20px;
+/* DashboardPage.css */
+.dashboard-page {
+  width: 100%;
+  min-height: 100%;
 }
 
-.admin-panel-layout .stats-grid {
+.dashboard-title {
+  color: #1e293b;
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+  font-weight: 600;
+}
+
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin: 20px 0;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
-.admin-panel-layout .stat-card {
-  padding: 20px;
+.stat-card {
+  padding: 2rem;
   border-radius: 12px;
   color: white;
   text-align: center;
   font-weight: bold;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.admin-panel-layout .stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0px 6px 15px rgba(0,0,0,0.15);
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
 }
 
-.admin-panel-layout .stat-card h2 {
+.stat-card h2 {
   font-size: 2.5rem;
-  margin-bottom: 5px;
+  margin-bottom: 0.5rem;
   color: white;
+  font-weight: 700;
 }
 
-.admin-panel-layout .stat-card p {
+.stat-card p {
   color: white;
-  font-size: 1rem;
+  font-size: 1.1rem;
   margin: 0;
+  opacity: 0.9;
 }
 
-.admin-panel-layout .stat-card.products {
+.stat-card.products {
   background: linear-gradient(135deg, #4cafef, #0077b6);
 }
 
-.admin-panel-layout .stat-card.categories {
+.stat-card.categories {
   background: linear-gradient(135deg, #f39c12, #d35400);
 }
 
-.admin-panel-layout .stat-card.users {
+.stat-card.users {
   background: linear-gradient(135deg, #2ecc71, #27ae60);
 }
 
-.admin-panel-layout .quick-links {
-  margin-top: 40px;
+.quick-links {
+  margin-top: 2rem;
 }
 
-.admin-panel-layout .quick-links h2 {
+.quick-links h2 {
   color: #1e293b;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
-.admin-panel-layout .links-grid {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
-.admin-panel-layout .quick-link {
-  flex: 1;
-  min-width: 200px;
+.quick-link {
   text-align: center;
   background: #ffffff;
-  padding: 20px 15px;
-  border-radius: 10px;
+  padding: 1.5rem;
+  border-radius: 12px;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
   color: #333;
-  transition: all 0.3s ease-in-out;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
 }
 
-.admin-panel-layout .quick-link:hover {
+.quick-link:hover {
   background: #0077b6;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
   border-color: #0077b6;
-}
-
-.admin-panel-layout .dashboard-title {
-  color: #1e293b;
-  font-size: 1.75rem;
-  margin-bottom: 30px;
-  font-weight: 600;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .admin-panel-layout .stats-grid {
+  .dashboard-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .stats-grid {
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 1rem;
   }
   
-  .admin-panel-layout .links-grid {
-    flex-direction: column;
+  .links-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
-  .admin-panel-layout .quick-link {
-    min-width: auto;
+  .stat-card {
+    padding: 1.5rem;
+    min-height: 120px;
   }
   
-  .admin-panel-layout .dashboard-container {
-    padding: 15px;
+  .stat-card h2 {
+    font-size: 2rem;
+  }
+  
+  .quick-link {
+    padding: 1.25rem;
+    min-height: 90px;
   }
 }

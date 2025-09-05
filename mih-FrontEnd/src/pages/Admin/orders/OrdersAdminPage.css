@@ -1,0 +1,216 @@
+/* OrdersAdminPage.css - Estilos específicos para la página de órdenes */
+
+.orders-admin-page {
+  width: 100%;
+  min-height: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.page-header h1 {
+  color: #2d3748;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+/* Contenedor de la tabla */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+/* Estilos para la tabla de órdenes */
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px;
+}
+
+.orders-table th {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid #e9ecef;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2d3748;
+  white-space: nowrap;
+}
+
+.orders-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: top;
+}
+
+.orders-table tr:last-child td {
+  border-bottom: none;
+}
+
+.orders-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Estilos específicos para celdas */
+.order-id {
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.order-message {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Estilos para el select de estado */
+.status-select {
+  padding: 0.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.status-select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Estilos para botones */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-delete {
+  background-color: #F44336;
+  color: #ffffff;
+}
+
+.btn-delete:hover {
+  background-color: #d32f2f;
+  transform: translateY(-1px);
+}
+
+/* Badges de estado (opcional) */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.75rem;
+  font-weight: bold;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-processing {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.status-shipped {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-completed {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.status-cancelled {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .table-container {
+    padding: 0.5rem;
+  }
+  
+  .orders-table th,
+  .orders-table td {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .orders-table {
+    min-width: 800px;
+  }
+  
+  .orders-table th,
+  .orders-table td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .order-message {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.25rem;
+  }
+  
+  .orders-table {
+    min-width: 600px;
+  }
+  
+  .orders-table th,
+  .orders-table td {
+    padding: 0.375rem;
+    font-size: 0.8rem;
+  }
+  
+  .btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+  }
+  
+  .status-select {
+    padding: 0.375rem;
+    font-size: 0.8rem;
+  }
+}

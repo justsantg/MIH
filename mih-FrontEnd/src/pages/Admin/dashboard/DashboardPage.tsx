@@ -49,36 +49,30 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="admin-layout">
-      {/* <Sidebar /> */}
-      <div className="admin-main">
-        {/* <Navbar /> */}
-        <div className="admin-content">
-          <h1>📊 Dashboard del Administrador</h1>
+    <div className="dashboard-page">
+      <h1 className="dashboard-title">📊 Dashboard del Administrador</h1>
 
-          <div className="stats-grid">
-            <div className="stat-card products">
-              <h2>{stats.products}</h2>
-              <p>Productos</p>
-            </div>
-            <div className="stat-card categories">
-              <h2>{stats.categories}</h2>
-              <p>Categorías</p>
-            </div>
-            <div className="stat-card users">
-              <h2>{stats.users}</h2>
-              <p>Usuarios</p>
-            </div>
-          </div>
+      <div className="stats-grid">
+        <div className="stat-card products">
+          <h2>{stats.products}</h2>
+          <p>Productos</p>
+        </div>
+        <div className="stat-card categories">
+          <h2>{stats.categories}</h2>
+          <p>Categorías</p>
+        </div>
+        <div className="stat-card users">
+          <h2>{stats.users}</h2>
+          <p>Usuarios</p>
+        </div>
+      </div>
 
-          <div className="quick-links">
-            <h2>Accesos Rápidos</h2>
-            <div className="links-grid">
-              <a href="/admin/products" className="quick-link">📦 Gestionar Productos</a>
-              <a href="/admin/categories" className="quick-link">📂 Gestionar Categorías</a>
-              <a href="/admin/users" className="quick-link">👤 Gestionar Usuarios</a>
-            </div>
-          </div>
+      <div className="quick-links">
+        <h2>Accesos Rápidos</h2>
+        <div className="links-grid">
+          <a href="/admin/products" className="quick-link">📦 Gestionar Productos</a>
+          <a href="/admin/categories" className="quick-link">📂 Gestionar Categorías</a>
+          <a href="/admin/users" className="quick-link">👤 Gestionar Usuarios</a>
         </div>
       </div>
     </div>

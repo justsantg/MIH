@@ -102,7 +102,6 @@ const ProductsAdminPage: React.FC = () => {
 
       let imageUrl = editingProduct?.imageUrl || "";
 
-      // 🚨 Si el usuario subió un archivo nuevo
       if (formData.imageFile) {
         const imageData = new FormData();
         imageData.append("file", formData.imageFile);
@@ -117,7 +116,7 @@ const ProductsAdminPage: React.FC = () => {
 
         if (uploadRes.ok) {
           const uploadResult = await uploadRes.json();
-          imageUrl = uploadResult.url; // 👈 la URL que devuelve el backend
+          imageUrl = uploadResult.url;
         } else {
           alert("Error al subir la imagen");
           return;
@@ -139,7 +138,7 @@ const ProductsAdminPage: React.FC = () => {
         wholesalePrice: formData.wholesalePrice ? parseFloat(formData.wholesalePrice) : undefined,
         stock: parseInt(formData.stock),
         categoryId: formData.categoryId,
-        imageUrl, // 👈 se guarda la URL generada
+        imageUrl,
       };
 
       const response = await fetch(url, {
@@ -167,8 +166,6 @@ const ProductsAdminPage: React.FC = () => {
       alert("Error al conectar con el servidor");
     }
   };
-
-
 
   const handleDelete = async (productId: number) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) {
@@ -219,113 +216,101 @@ const ProductsAdminPage: React.FC = () => {
   };
 
   if (loading || categoriesLoading) return (
-    <div className="admin-layout">
-      {/* <Sidebar /> */}
-      <div className="admin-main">
-        {/* <Navbar /> */}
-        <div className="admin-content">
-          <p>Cargando productos...</p>
-        </div>
-      </div>
+    <div className="products-admin-page">
+      <p>Cargando productos...</p>
     </div>
   );
 
   return (
-    <div className="admin-layout">
-      {/* <Sidebar /> */}
-      <div className="admin-main">
-        {/* <Navbar /> */}
-        <div className="admin-content">
-          <div className="page-header">
-            <h1>📦 Gestión de Productos</h1>
-            <button onClick={handleCreateProduct} className="btn btn-primary">
-              ➕ Nuevo Producto
-            </button>
-          </div>
-
-          {products.length === 0 ? (
-            <p>No hay productos disponibles</p>
-          ) : (
-            <table className="products-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Imagen</th>
-                  <th>Nombre</th>
-                  <th>Precio Unitario</th>
-                  <th>Precio Mayorista</th>
-                  <th>Stock</th>
-                  <th>Categoría</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.map((product) => (
-                  <tr key={product.id}>
-                    <td>{product.id}</td>
-                    <td>
-                      {product.imageUrl ? (
-                        <img
-                          src={`http://localhost:3000${product.imageUrl}`}
-                          alt={product.name}
-                          className="product-image"
-                        />
-                      ) : (
-                        <div className="product-image-placeholder">📦</div>
-                      )}
-                    </td>
-
-                    <td>
-                      <div className="product-name">{product.name}</div>
-                      {product.description && (
-                        <div className="product-description">
-                          {product.description.length > 50
-                            ? `${product.description.substring(0, 50)}...`
-                            : product.description}
-                        </div>
-                      )}
-                    </td>
-                    <td>{formatPrice(product.unitPrice)}</td>
-                    <td>{product.wholesalePrice ? formatPrice(product.wholesalePrice) : "N/A"}</td>
-                    <td>
-                      <span className={`stock-badge ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                        {product.stock}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="category-name">{getCategoryName(product)}</div>
-                      <div className="category-description">{getCategoryDescription(product)}</div>
-                    </td>
-                    <td>
-                      <div className="action-buttons">
-                        <Link to={`/admin/products/view/${product.id}`} className="btn btn-view">👁️ Ver</Link>
-                        <button onClick={() => handleEditProduct(product)} className="btn btn-edit">✏️ Editar</button>
-                        <button onClick={() => handleDelete(product.id)} className="btn btn-delete">🗑️ Eliminar</button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-
-          <ProductsForm
-            isOpen={isModalOpen}
-            onClose={handleCloseModal}
-            onSubmit={handleSubmitProduct}
-            initialData={editingProduct ? {
-              name: editingProduct.name,
-              description: editingProduct.description || "",
-              unitPrice: editingProduct.unitPrice.toString(),
-              wholesalePrice: editingProduct.wholesalePrice?.toString() || "",
-              stock: editingProduct.stock.toString(),
-              categoryId: editingProduct.categoryId,
-            } : null}
-            categories={categories}
-            title={editingProduct ? "Editar Producto" : "Crear Nuevo Producto"}
-          />
-        </div>
+    <div className="products-admin-page">
+      <div className="page-header">
+        <h1>📦 Gestión de Productos</h1>
+        <button onClick={handleCreateProduct} className="btn btn-primary">
+          ➕ Nuevo Producto
+        </button>
       </div>
+
+      {products.length === 0 ? (
+        <p>No hay productos disponibles</p>
+      ) : (
+        <table className="products-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Precio Unitario</th>
+              <th>Precio Mayorista</th>
+              <th>Stock</th>
+              <th>Categoría</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>
+                  {product.imageUrl ? (
+                    <img
+                      src={`http://localhost:3000${product.imageUrl}`}
+                      alt={product.name}
+                      className="product-image"
+                    />
+                  ) : (
+                    <div className="product-image-placeholder">📦</div>
+                  )}
+                </td>
+
+                <td>
+                  <div className="product-name">{product.name}</div>
+                  {product.description && (
+                    <div className="product-description">
+                      {product.description.length > 50
+                        ? `${product.description.substring(0, 50)}...`
+                        : product.description}
+                    </div>
+                  )}
+                </td>
+                <td>{formatPrice(product.unitPrice)}</td>
+                <td>{product.wholesalePrice ? formatPrice(product.wholesalePrice) : "N/A"}</td>
+                <td>
+                  <span className={`stock-badge ${product.stock > 0 ? 'in-stock' : 'out-of-stock'}`}>
+                    {product.stock}
+                  </span>
+                </td>
+                <td>
+                  <div className="category-name">{getCategoryName(product)}</div>
+                  <div className="category-description">{getCategoryDescription(product)}</div>
+                </td>
+                <td>
+                  <div className="action-buttons">
+                    <Link to={`/admin/products/view/${product.id}`} className="btn btn-view">👁️ Ver</Link>
+                    <button onClick={() => handleEditProduct(product)} className="btn btn-edit">✏️ Editar</button>
+                    <button onClick={() => handleDelete(product.id)} className="btn btn-delete">🗑️ Eliminar</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <ProductsForm
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={handleSubmitProduct}
+        initialData={editingProduct ? {
+          name: editingProduct.name,
+          description: editingProduct.description || "",
+          unitPrice: editingProduct.unitPrice.toString(),
+          wholesalePrice: editingProduct.wholesalePrice?.toString() || "",
+          stock: editingProduct.stock.toString(),
+          categoryId: editingProduct.categoryId,
+        } : null}
+        categories={categories}
+        title={editingProduct ? "Editar Producto" : "Crear Nuevo Producto"}
+      />
     </div>
   );
 };

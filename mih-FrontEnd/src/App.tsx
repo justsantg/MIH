@@ -20,6 +20,7 @@ import ProductsAdminPage from './pages/Admin/products/ProductsAdminPage';
 import CategoriesAdminPage from './pages/Admin/categories/CategoriesAdminPage';
 import UsersAdminPage from './pages/Admin/users/UsersAdminPage';
 import AdminDashboard from './pages/Admin/dashboard/DashboardPage';
+import OrdersAdminPage from './pages/Admin/orders/OrdersAdminPage';
 
 function App() {
   return (
@@ -46,12 +47,14 @@ function App() {
               </>
             }
           />
+          OrdersAdminPage
           {/* Rutas del admin con AdminLayout (incluye su propio navbar/sidebar) */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="products" element={<ProductsAdminPage />} />
             <Route path="categories" element={<CategoriesAdminPage />} />
             <Route path="users" element={<UsersAdminPage />} />
+             <Route path="orders" element={<OrdersAdminPage />} />
           </Route>
         </Routes>
       </div>

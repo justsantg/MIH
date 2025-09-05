@@ -29,7 +29,6 @@ const CategoriesAdminPage: React.FC = () => {
 
       if (res.ok) {
         const data = await res.json();
-        // Aseguramos que se guarde un array
         setCategories(data.data || []);
       } else {
         console.error("Error fetching categories:", res.status);
@@ -100,86 +99,80 @@ const CategoriesAdminPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="admin-layout">
-        <div className="admin-main">
-          <div className="admin-content">
-            <p>Cargando categorías...</p>
-          </div>
-        </div>
+      <div className="categories-admin-page">
+        <p>Cargando categorías...</p>
       </div>
     );
   }
 
   return (
-    <div className="admin-layout">
-      <div className="admin-main">
-        <div className="admin-content">
-          <div className="page-header">
-            <h1>📂 Gestión de Categorías</h1>
-            <button
-              onClick={() => {
-                setEditingCategory(null);
-                setShowForm(true);
-              }}
-              className="btn btn-primary"
-            >
-              ➕ Nueva Categoría
-            </button>
-          </div>
-
-          {showForm && (
-            <CategoryForm
-              initialData={editingCategory || undefined}
-              onSave={handleSave}
-              onCancel={() => {
-                setShowForm(false);
-                setEditingCategory(null);
-              }}
-            />
-          )}
-
-          {categories.length === 0 ? (
-            <p>No hay categorías disponibles</p>
-          ) : (
-            <table className="categories-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {categories.map((cat) => (
-                  <tr key={cat.id}>
-                    <td>{cat.id}</td>
-                    <td>{cat.name}</td>
-                    <td>{cat.description}</td>
-                    <td>
-                      <button
-                        onClick={() => {
-                          setEditingCategory(cat);
-                          setShowForm(true);
-                        }}
-                        className="btn btn-edit"
-                      >
-                        ✏️ Editar
-                      </button>
-                      <button
-                        onClick={() => handleDelete(cat.id)}
-                        className="btn btn-delete"
-                      >
-                        🗑️ Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+    <div className="categories-admin-page">
+      <div className="page-header">
+        <h1>📂 Gestión de Categorías</h1>
+        <button
+          onClick={() => {
+            setEditingCategory(null);
+            setShowForm(true);
+          }}
+          className="btn btn-primary"
+        >
+          ➕ Nueva Categoría
+        </button>
       </div>
+
+      {showForm && (
+        <CategoryForm
+          initialData={editingCategory || undefined}
+          onSave={handleSave}
+          onCancel={() => {
+            setShowForm(false);
+            setEditingCategory(null);
+          }}
+        />
+      )}
+
+      {categories.length === 0 ? (
+        <p>No hay categorías disponibles</p>
+      ) : (
+        <table className="categories-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {categories.map((cat) => (
+              <tr key={cat.id}>
+                <td>{cat.id}</td>
+                <td>{cat.name}</td>
+                <td>{cat.description || "Sin descripción"}</td>
+                <td>
+                  <div className="action-buttons">
+                    <button
+                      onClick={() => {
+                        setEditingCategory(cat);
+                        setShowForm(true);
+                      }}
+                      className="btn btn-edit"
+                    >
+                      ✏️ Editar
+                    </button>
+                    <button
+                      onClick={() => handleDelete(cat.id)}
+                      className="btn btn-delete"
+                    >
+                      🗑️ Eliminar
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

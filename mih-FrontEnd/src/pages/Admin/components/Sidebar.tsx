@@ -10,6 +10,7 @@ const AdminSidebar: React.FC = () => {
     { path: "/admin/products", label: "📦 Productos" },
     { path: "/admin/categories", label: "🗂️ Categorías" },
     { path: "/admin/users", label: "👤 Usuarios" },
+    { path: "/admin/orders", label: "📋 Ordenes" },
   ];
 
   return (
