@@ -1,0 +1,220 @@
+/* ProductsAdminPage.css - Solo estilos específicos de la página de productos */
+
+.products-admin-page {
+  width: 100%;
+  min-height: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.page-header h1 {
+  color: #2d3748;
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+/* Estilos para botones */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-view {
+  background-color: #3498db;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.btn-view:hover {
+  background-color: #2980b9;
+}
+
+.btn-edit {
+  background-color: #FF9800;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.btn-edit:hover {
+  background-color: #e68a00;
+}
+
+.btn-delete {
+  background-color: #F44336;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.btn-delete:hover {
+  background-color: #d32f2f;
+}
+
+/* Estilos para la tabla de productos */
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.products-table th {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 2px solid #e9ecef;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.products-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.products-table tr:last-child td {
+  border-bottom: none;
+}
+
+.products-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Estilos para imágenes de productos */
+.product-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.product-image-placeholder {
+  width: 50px;
+  height: 50px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.25rem;
+  font-size: 1.25rem;
+}
+
+/* Estilos para información de productos */
+.product-name {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #2d3748;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+/* Estilos para badges de stock */
+.stock-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.75rem;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+.stock-badge.in-stock {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.stock-badge.out-of-stock {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Estilos para información de categoría */
+.category-name {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  color: #2d3748;
+}
+
+.category-description {
+  font-size: 0.9rem;
+  color: #718096;
+}
+
+/* Estilos para botones de acción */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 100px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .products-table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .products-table th,
+  .products-table td {
+    padding: 0.75rem;
+  }
+  
+  .action-buttons {
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+  }
+}

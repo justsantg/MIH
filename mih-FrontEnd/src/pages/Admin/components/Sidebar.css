@@ -1,0 +1,93 @@
+/* Estilos específicos para el sidebar del admin - con namespace */
+.admin-panel-layout .admin-sidebar-component {
+  width: 240px;
+  background: linear-gradient(180deg, #1e293b, #0f172a);
+  color: #fff;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.admin-panel-layout .admin-sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #fff;
+}
+
+.admin-panel-layout .admin-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-panel-layout .admin-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #e5e7eb;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.admin-panel-layout .admin-sidebar-link:hover {
+  background-color: #334155;
+  color: #fff;
+}
+
+.admin-panel-layout .admin-sidebar-link.active {
+  background-color: #0ea5e9;
+  color: #fff;
+}
+
+/* Responsive para el sidebar del admin */
+@media (max-width: 1024px) {
+  .admin-panel-layout .admin-sidebar-component {
+    width: 100%;
+    height: auto;
+    position: relative;
+    min-height: auto;
+  }
+  
+  .admin-panel-layout .admin-sidebar-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .admin-panel-layout .admin-sidebar-link {
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-panel-layout .admin-sidebar-component {
+    padding: 1rem;
+  }
+  
+  .admin-panel-layout .admin-sidebar-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  .admin-panel-layout .admin-sidebar-nav {
+    gap: 0.5rem;
+  }
+  
+  .admin-panel-layout .admin-sidebar-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

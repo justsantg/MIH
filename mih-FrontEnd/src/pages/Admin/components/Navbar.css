@@ -1,0 +1,133 @@
+/* Variables CSS aisladas para el admin */
+.admin-panel-layout {
+  --admin-primary-dark: #2c3e50;
+  --admin-primary-light: #34495e;
+  --admin-accent-color: #3498db;
+  --admin-white: #ffffff;
+  --admin-light-gray: #f8f9fa;
+  --admin-medium-gray: #e9ecef;
+  --admin-dark-gray: #6c757d;
+  --admin-text-dark: #2d3748;
+  --admin-text-light: #718096;
+  --admin-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+  --admin-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Estilos específicos para el navbar de administración - con namespace */
+.admin-panel-layout .admin-navbar {
+  background: var(--admin-white);
+  padding: 0;
+  box-shadow: var(--admin-shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid var(--admin-medium-gray);
+  width: 100%;
+}
+
+.admin-panel-layout .admin-navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.875rem 2rem;
+  margin: 0 auto;
+  width: 100%; /* Asegurar que ocupe todo el ancho */
+  max-width: none; /* Remover cualquier max-width */
+}
+
+.admin-panel-layout .admin-navbar-title {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: var(--admin-primary-dark);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.admin-panel-layout .admin-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.admin-panel-layout .admin-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 1.5rem;
+  border-right: 1px solid var(--admin-medium-gray);
+}
+
+.admin-panel-layout .admin-user-greeting {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--admin-text-dark);
+}
+
+.admin-panel-layout .admin-user-role {
+  font-size: 0.75rem;
+  color: var(--admin-text-light);
+  margin-top: 0.125rem;
+}
+
+.admin-panel-layout .admin-logout-btn {
+  background: transparent;
+  color: var(--admin-dark-gray);
+  border: 1px solid var(--admin-medium-gray);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--admin-transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-panel-layout .admin-logout-btn:hover {
+  background: var(--admin-light-gray);
+  color: var(--admin-primary-dark);
+  border-color: var(--admin-dark-gray);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.admin-panel-layout .admin-logout-icon {
+  font-size: 0.9rem;
+}
+
+.admin-panel-layout .admin-logout-text {
+  font-size: 0.875rem;
+}
+
+/* Responsive para el navbar del admin */
+@media (max-width: 768px) {
+  .admin-panel-layout .admin-navbar-content {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .admin-panel-layout .admin-user-info {
+    display: none;
+  }
+  
+  .admin-panel-layout .admin-logout-btn {
+    padding: 0.5rem;
+  }
+  
+  .admin-panel-layout .admin-logout-text {
+    display: none;
+  }
+  
+  .admin-panel-layout .admin-navbar-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-panel-layout .admin-navbar-content {
+    padding: 0.625rem 1rem;
+  }
+  
+  .admin-panel-layout .admin-navbar-title {
+    font-size: 1.125rem;
+  }
+}

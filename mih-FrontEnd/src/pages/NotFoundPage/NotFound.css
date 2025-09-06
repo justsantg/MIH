@@ -1,0 +1,82 @@
+:root {
+  --primary-dark: #08415C;
+  --primary-red: #CC2936;
+  --secondary-blue: #6B818C;
+  --accent-peach: #F1BF98;
+  --background-light: #EEE5E9;
+  --white: #ffffff;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.notfound-page {
+  background: var(--background-light);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notfound-hero {
+  background: var(--white);
+  padding: 6rem 0 6rem 0;
+  box-shadow: var(--shadow);
+  border-radius: 1.5rem;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 4rem auto;
+}
+
+.notfound-title {
+  font-size: 5rem;
+  font-weight: 800;
+  color: var(--primary-red);
+  margin-bottom: 1rem;
+  letter-spacing: -0.05em;
+}
+
+.notfound-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.notfound-message {
+  color: var(--secondary-blue);
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
+}
+
+.notfound-btn,
+.btn {
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: none;
+  font-size: 1rem;
+  background-color: var(--primary-red);
+  color: var(--white);
+}
+
+.notfound-btn:hover,
+.btn-primary:hover {
+  background-color: rgba(204, 41, 54, 0.9);
+}
+
+@media (max-width: 600px) {
+  .notfound-hero {
+    padding: 3rem 0 3rem 0;
+    max-width: 95vw;
+  }
+  .notfound-title {
+    font-size: 3rem;
+  }
+}
